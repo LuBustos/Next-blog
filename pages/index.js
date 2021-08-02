@@ -1,29 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
 import FeaturedPost from "../components/home-page/featured-post";
 import Hero from "../components/home-page/hero";
-import styles from "../styles/Home.module.css";
+import { getFeaturedPosts } from "../lib/posts-util";
 
-const DUMMY_POSTS = [
-  {
-    title: "Getting Started with NextJS",
-    image: "getting-started-with-nextjs.png",
-    excerpt:
-      "NextJS is the react framework for production -it makes building fullstack react apps and sites a breeze",
-    date: "2022-02-10",
-    slug: "getting-started-with-nextjs",
-  },
-  {
-    title: "Getting Started with NextJS1",
-    image: "getting-started-with-nextjs.png",
-    excerpt:
-      "NextJS is the react framework for production -it makes building fullstack react apps and sites a breeze2",
-    date: "2022-01-10",
-    slug: "getting-started-with-nextjs",
-  },
-];
-
-export default function Home() {
+export default function Home(props) {
   return (
     <div>
       <Head>
@@ -32,7 +12,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <FeaturedPost posts={DUMMY_POSTS} />
+      <FeaturedPost posts={props.posts} />
     </div>
   );
+}
+
+export function getStaticProps() {
+  const featuredPosts = getFeaturedPosts();
+
+  return {
+    props: {
+      posts: featuredPosts,
+    },
+  };
 }
